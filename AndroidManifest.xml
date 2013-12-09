@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.kabootar.GlassMemeGenerator"
+          android:versionCode="1"
+          android:versionName="0.1">
+    <uses-sdk android:minSdkVersion="15"/>
+    <application android:label="@string/app_name">
+        <activity android:name="MainPage"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".AddCaption">
+        </activity>
+        <activity android:name=".LiveCardActivity"/>
+        <service
+                android:name="com.kabootar.GlassMemeGenerator.MemeService"
+                android:label="@string/app_name"
+                android:exported="true"
+                android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
+            </intent-filter>
+            <meta-data
+                    android:name="com.google.android.glass.VoiceTrigger"
+                    android:resource="@xml/memegenerator" />
+        </service>
+    </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+</manifest>
