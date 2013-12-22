@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GlassMemeGenerator</string>
-    <string name="makememe_voice_trigger">make a meme</string>
+    <string name="makememe_voice_trigger">can you make me a meme?</string>
     <string name="add_top_caption">Add Top Caption</string>
     <string name="add_bottom_caption">Add Bottom Caption</string>
     <string name="add_caption">Add Caption</string>
@@ -13,7 +13,8 @@
     <string name="show_results">Results</string>
     <string name="delete_card">Delete</string>
     <string name="intro_text">Nice picture! Go on. Add your captions..</string>
-    <string name="memeBroadcast">meme_broadcast</string><string name="live_card_message">Busy uploading meme to Imgur. This card will be updated with URL</string>
+    <string name="memeBroadcast">meme_broadcast</string>
+    <string name="live_card_message">Busy uploading meme to Imgur. This card will be updated with URL</string>
     <item name="top_caption_prompt" type="id">say top caption</item>
     <item name="bottom_caption_prompt" type="id">say bottom caption</item>
 </resources>

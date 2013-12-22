@@ -278,7 +278,7 @@ public class ImageOverlay {
                     }
                 }
 
-                httpPost.addHeader(new BasicHeader("Authorization","Client-ID IMGUR_API_KEY_HERE"));
+                httpPost.addHeader(new BasicHeader("Authorization","Client-ID c7170fd28edd452"));
 
                 httpPost.setEntity(entity);
 
@@ -312,6 +312,7 @@ public class ImageOverlay {
         protected void onPostExecute(String s) {
             Intent intent = new Intent("meme_broadcast");
             intent.putExtra("message", s);
+            intent.putExtra("fileName", fileName);
             mContext.sendBroadcast(intent);
 
             super.onPostExecute(s);

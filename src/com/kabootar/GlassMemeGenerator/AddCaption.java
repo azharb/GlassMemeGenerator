@@ -49,6 +49,9 @@ public class AddCaption extends Activity {
 
         //grab file path for image captured
         picture_path = getIntent().getStringExtra(getResources().getString(R.string.picture_path));
+        top_caption = "";
+        bottom_caption = "";
+        fileName = null;
     }
 
     @Override
