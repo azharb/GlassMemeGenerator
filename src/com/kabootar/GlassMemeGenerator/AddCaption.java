@@ -176,7 +176,8 @@ public class AddCaption extends Activity {
                     //ALL ABOARD!
 
                     //use ImageOverlay class to write captions to image as bitmap
-                    overlaid = ImageOverlay.overlay(mutableBitmap, top_caption.toUpperCase(), bottom_caption.toUpperCase());
+                    overlaid = ImageOverlay.overlay(mutableBitmap, top_caption.toUpperCase(), bottom_caption.toUpperCase(),
+                            getBaseContext());
 
                     //define filename
                     File extStore = Environment.getExternalStorageDirectory();

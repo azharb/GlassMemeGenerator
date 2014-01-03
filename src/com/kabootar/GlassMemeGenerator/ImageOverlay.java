@@ -51,6 +51,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.graphics.Paint.Style.*;
+
 /**
  * Worker that knows how to overlay text onto an image.
  */
@@ -68,14 +70,14 @@ public class ImageOverlay {
     private static final String INPUT_IMAGE = "/tmp/CHANGEME";
     private static final String CAPTION_FILE = "/tmp/CHANGEME.out";
 
-    public static Bitmap overlay(Bitmap image, String topCaption, String bottomCaption)
+    public static Bitmap overlay(Bitmap image, String topCaption, String bottomCaption, Context baseContext)
             throws IOException, InterruptedException {
 
         Canvas graphics = new Canvas(image);
         graphics.drawBitmap(image,0,0,null);
-        drawStringCentered(graphics, topCaption, image, true);
+        drawStringCentered(graphics, topCaption, image, true, baseContext);
         graphics.drawBitmap(image,0,0,null);
-        drawStringCentered(graphics, bottomCaption, image, false);
+        drawStringCentered(graphics, bottomCaption, image, false, baseContext);
         return image;
     }
 
@@ -89,8 +91,8 @@ public class ImageOverlay {
             Canvas graphics = new Canvas(image);
             String captionTop = TOP_TEXT;
             String captionBottom = BOTTOM_TEXT;
-            drawStringCentered(graphics, captionTop, image, true);
-            drawStringCentered(graphics, captionBottom, image, false);
+            drawStringCentered(graphics, captionTop, image, true, null);
+            drawStringCentered(graphics, captionBottom, image, false, null);
 
             //ImageIO.write(image, "png", new File(CAPTION_FILE));
         } catch ( Exception e ) {
@@ -102,7 +104,7 @@ public class ImageOverlay {
      * Draws the given string centered, as big as possible, on either the top or
      * bottom 20% of the image given.
      */
-    private static void drawStringCentered(Canvas g, String text, Bitmap image, boolean top) throws InterruptedException {
+    private static void drawStringCentered(Canvas g, String text, Bitmap image, boolean top, Context baseContext) throws InterruptedException {
         if (text == null)
             text = "";
 
@@ -112,10 +114,19 @@ public class ImageOverlay {
         int maxLineWidth = image.getWidth() - SIDE_MARGIN * 2;
         String formattedString = "";
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        do {
-            Typeface tf = Typeface.create("Arial", Typeface.BOLD);
 
-            paint.setTypeface(tf);
+        Paint stkPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        stkPaint.setStyle(STROKE);
+        stkPaint.setStrokeWidth(8);
+        stkPaint.setColor(Color.BLACK);
+
+        //Typeface tf = Typeface.create("Arial", Typeface.BOLD);
+        Typeface tf = Typeface.createFromAsset(baseContext.getAssets(),"fonts/impact.ttf");
+
+        paint.setTypeface(tf);
+        stkPaint.setTypeface(tf);
+        do {
+
             paint.setTextSize(fontSize);
 
             // first inject newlines into the text to wrap properly
@@ -178,10 +189,18 @@ public class ImageOverlay {
             // Draw each string twice for a shadow effect
             Rect stringBounds = new Rect();
             paint.getTextBounds(line, 0, line.length(), stringBounds);
-            paint.setColor(Color.BLACK);
-            g.drawText(line, (image.getWidth() - (int) stringBounds.width()) / 2 + 2, y + stringBounds.height() + 2, paint);
+            //paint.setColor(Color.BLACK);
+            //g.drawText(line, (image.getWidth() - (int) stringBounds.width()) / 2 + 2, y + stringBounds.height() + 2, paint);
+
             paint.setColor(Color.WHITE);
             g.drawText(line, (image.getWidth() - (int) stringBounds.width()) / 2, y + stringBounds.height(), paint);
+
+            //stroke
+            Rect strokeBounds = new Rect();
+            stkPaint.setTextSize(fontSize);
+            stkPaint.getTextBounds(line, 0, line.length(), strokeBounds);
+            g.drawText(line, (image.getWidth() - (int) strokeBounds.width()) / 2, y + strokeBounds.height(), stkPaint);
+
             y += stringBounds.height();
         }
     }
